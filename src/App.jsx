@@ -89,6 +89,7 @@ function App() {
 
   const [selectedNode, setSelectedNode] =
     useState(null);
+  const [selectedEdge, setSelectedEdge] = useState(null);
 
   const [relationshipType, setRelationshipType] =
     useState("association");
@@ -145,11 +146,18 @@ function App() {
     setNodes([]);
     setEdges([]);
     setSelectedNode(null);
+    setSelectedEdge(null);
     setGeneratedCode("");
   };
 
   const selectNode = (_, node) => {
     setSelectedNode(node);
+    setSelectedEdge(null);
+  };
+
+  const selectEdge = (_, edge) => {
+    setSelectedEdge(edge);
+    setSelectedNode(null);
   };
 
   const deleteSelectedClass = () => {
@@ -176,6 +184,12 @@ function App() {
     );
 
     setSelectedNode(null);
+  };
+
+  const deleteSelectedRelationship = () => {
+    if (!selectedEdge) return;
+    setEdges((currentEdges) => currentEdges.filter((edge) => edge.id !== selectedEdge.id));
+    setSelectedEdge(null);
   };
 
   // -------------------------
@@ -552,6 +566,11 @@ function App() {
         <button onClick={clearCanvas}>
           Clear
         </button>
+        {selectedEdge && (
+          <button className="delete-class-button" onClick={deleteSelectedRelationship}>
+            Delete Relationship
+          </button>
+        )}
       </div>
 
       <div className="editor">
@@ -565,6 +584,8 @@ function App() {
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
             onNodeClick={selectNode}
+            onEdgeClick={selectEdge}
+            onPaneClick={() => { setSelectedNode(null); setSelectedEdge(null); }}
             deleteKeyCode={[
               "Backspace",
               "Delete",

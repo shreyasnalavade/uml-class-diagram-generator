@@ -1,16 +1,30 @@
-# React + Vite
+# UML Class Diagram Generator
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A responsive React application for building UML class diagrams and generating Java source from them. The diagram editor uses React Flow.
 
-Currently, two official plugins are available:
+## Run locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```sh
+npm install
+npm run dev
+```
 
-## React Compiler
+Create a production build with `npm run build`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Use the editor
 
-## Expanding the Oxlint configuration
+- Add classes with **+ Add Class**. Select a class to edit its name, attributes, methods, and method parameters.
+- Drag classes to arrange them. Start a connection from a class handle to another class to create a relationship using the currently selected relationship tool.
+- Select an edge and choose **Delete Relationship** to remove it. Select a class and choose **Delete Class** to remove it and its connected relationships.
+- Choose **Generate Java** to create Java classes. Inheritance becomes `extends`; association, aggregation, and composition become typed fields; dependency is emitted as a source comment.
+- The generated source panel includes a copy button. **Clear** removes the current diagram.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Visibility uses standard UML symbols: `+` public, `-` private, and `#` protected.
+
+## Project structure
+
+- `src/App.jsx` — diagram state and editor interactions
+- `src/components/ClassNode.jsx` — UML class rendering
+- `src/components/UMLEdge.jsx` — relationship rendering
+- `src/JavaCodeGenerator.js` — Java source generation
+- `src/App.css` — application styling and responsive layout
